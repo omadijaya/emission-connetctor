@@ -10,8 +10,14 @@ beforeEach(function () {
     ]);
 });
 
-test('it returns 422 for invalid input on emission flight', function () {
+test('it returns 401 for unauthorized access', function () {
     $response = $this->post('/api/v1/emission/flight');
+
+    $response->assertStatus(401);
+});
+
+test('it returns 422 for invalid input on emission flight', function () {
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/flight');
 
     $response->assertStatus(422);
     $response->assertJson([
@@ -20,7 +26,7 @@ test('it returns 422 for invalid input on emission flight', function () {
 });
 
 test('it returns 200 for valid input on emission flight', function () {
-    $response = $this->post('/api/v1/emission/flight', [
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/flight', [
         [
             'item_id' => '1',
             'origin' => 'LHR',
@@ -36,7 +42,7 @@ test('it returns 200 for valid input on emission flight', function () {
 });
 
 test('it returns 422 for invalid input on emission hotel', function () {
-    $response = $this->post('/api/v1/emission/hotel');
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/hotel');
 
     $response->assertStatus(422);
     $response->assertJson([
@@ -45,7 +51,7 @@ test('it returns 422 for invalid input on emission hotel', function () {
 });
 
 test('it returns 200 for valid input on emission hotel', function () {
-    $response = $this->post('/api/v1/emission/hotel', [
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/hotel', [
         [
             'item_id' => '1',
             'country' => 'ID',
@@ -59,7 +65,7 @@ test('it returns 200 for valid input on emission hotel', function () {
 });
 
 test('it returns 422 for invalid input on emission train', function () {
-    $response = $this->post('/api/v1/emission/train');
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/train');
 
     $response->assertStatus(422);
     $response->assertJson([
@@ -68,7 +74,7 @@ test('it returns 422 for invalid input on emission train', function () {
 });
 
 test('it returns 200 for valid input on emission train', function () {
-    $response = $this->post('/api/v1/emission/train', [
+    $response = $this->withoutMiddleware()->post('/api/v1/emission/train', [
         [
             'item_id' => '1',
             'origin' => 'LHR',

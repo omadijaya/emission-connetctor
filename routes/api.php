@@ -10,7 +10,7 @@ Route::get('/ping', function (Request $request) {
     return 'pong';
 });
 
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1', 'middleware' => 'auth.guest'], function () {
     Route::post('/emission/flight', [EmissionController::class, 'getFlightEmission']);
     Route::post('/emission/hotel', [EmissionController::class, 'getHotelEmission']);
     Route::post('/emission/train', [EmissionController::class, 'getTrainEmission']);
