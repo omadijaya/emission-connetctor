@@ -9,3 +9,4 @@ services:
       SERVER_NAME: ":80"
     volumes:
       - ./:/app
+      - /app/vendor

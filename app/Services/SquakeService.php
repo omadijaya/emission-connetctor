@@ -10,9 +10,11 @@ use App\Data\External\Squake\TrainCalculationInput;
 use App\Data\Response\V1\FlightEmissionData;
 use App\Data\Response\V1\HotelEmissionData;
 use App\Data\Response\V1\TrainEmissionData;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Log;
 
 final class SquakeService
 {
@@ -41,7 +43,13 @@ final class SquakeService
             );
         });
 
-        $result = $this->getEmissionCalculation($normalizeInput);
+        try {
+            $result = $this->getEmissionCalculation($normalizeInput);
+        } catch (Exception $e) {
+            Log::error('Failed to fetch flight emission calculation', ['exception' => $e]);
+
+            return collect();
+        }
 
         if (empty($result['items'])) {
             return collect();
@@ -73,7 +81,13 @@ final class SquakeService
             );
         });
 
-        $result = $this->getEmissionCalculation($normalizeInput);
+        try {
+            $result = $this->getEmissionCalculation($normalizeInput);
+        } catch (Exception $e) {
+            Log::error('Failed to fetch hotel emission calculation', ['exception' => $e]);
+
+            return collect();
+        }
 
         if (empty($result['items'])) {
             return collect();
@@ -104,7 +118,13 @@ final class SquakeService
             );
         });
 
-        $result = $this->getEmissionCalculation($normalizeInput);
+        try {
+            $result = $this->getEmissionCalculation($normalizeInput);
+        } catch (Exception $e) {
+            Log::error('Failed to fetch train emission calculation', ['exception' => $e]);
+
+            return collect();
+        }
 
         if (empty($result['items'])) {
             return collect();
@@ -135,6 +155,10 @@ final class SquakeService
                 'expand' => ['items'],
                 'items' => $items->toArray(),
             ]);
+
+        if ($response->failed()) {
+            throw new Exception('Failed to fetch emission calculation: '.$response->body());
+        }
 
         $result = json_decode($response->getBody()->getContents(), true);
 
