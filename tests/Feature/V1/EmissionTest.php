@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Http;
+
+beforeEach(function () {
+    Http::fake([
+        'http://your-squake-url/v2/calculations' => Http::response(['data' => 'mocked response'], 200),
+    ]);
+});
+
 test('it returns 422 for invalid input on emission flight', function () {
     $response = $this->post('/api/v1/emission/flight');
 

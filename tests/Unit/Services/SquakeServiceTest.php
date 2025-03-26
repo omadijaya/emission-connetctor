@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 
 test('calculates flight emissions', function () {
     Http::fake([
-        'squake.earth/*' => Http::response([
+        'http://your-squake-url/*' => Http::response([
             'items' => [
                 [
                     'external_reference' => '0cd5fb23-65db-427a-a6ec-3d37897c5f35',
@@ -55,7 +55,7 @@ test('calculates flight emissions', function () {
 
 test('calculates hotel emissions', function () {
     Http::fake([
-        'squake.earth/*' => Http::response([
+        'http://your-squake-url/*' => Http::response([
             'items' => [
                 [
                     'external_reference' => '7369861a-ca0c-49e1-9f01-139aa8da830b',
@@ -93,7 +93,7 @@ test('calculates hotel emissions', function () {
 
 test('calculates train emissions', function () {
     Http::fake([
-        'squake.earth/*' => Http::response([
+        'http://your-squake-url/*' => Http::response([
             'items' => [
                 [
                     'external_reference' => '42737b25-39a4-48d3-a6f9-857d0accd633',
