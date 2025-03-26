@@ -1,0 +1,11 @@
+services:
+  frankenphp-cgi:
+    build:
+      context: .
+      dockerfile: ./.docker/frankenphp-cgi.dockerfile
+    ports:
+      - "8001:80"
+    environment:
+      SERVER_NAME: ":80"
+    volumes:
+      - ./:/app
